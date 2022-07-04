@@ -9,6 +9,8 @@ urlpatterns = [
     path("", include("globalapp.urls")),
     path("", include("news_app.urls")),
     path("", include("commerce.urls")),
+    path("", include("players.urls")),
+    path("", include("teams.urls")),
 ]
 
 if settings.DEBUG:

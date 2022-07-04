@@ -1,51 +1,21 @@
-from commerce.models import PcSpec
 from django.db import models
 from django_jsonform.models.fields import JSONField
+from globalapp.models import Country, Organizer
+from players.models import Player
+from teams.models import Team
 
 from csgo.model_schemes import (BROADCASTERS, MAP_POOL, MATCH_SCHEDULE,
                                 PLAYERS_STATS, PLAYERS_STATS_TOUR,
                                 PRIZE_DISTRIBUTION, SOCIAL_MEDIA, TALENT,
-                                TEAM_HISTORY, TEAM_STAFF, TEAM_STATS,
-                                YEARS_ACTIVE)
+                                TEAM_STATS)
 
 
 # Players
-class Player(models.Model):
-    STATUS_CHOICES = (
-        ("A", "Active"),
-        ("I", "Inactive"),
-        ("R", "Retired"),
-        ("U", "Unknown"),
-    )
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, blank=True)
-    full_name = models.CharField(max_length=255, blank=True)
-    native_name = models.CharField(max_length=255, blank=True)
-    born = models.DateField(blank=True, null=True)
-    hometown = models.CharField(max_length=255, blank=True)
-    # birth country -- pending
-    status = models.CharField(
-        max_length=1, choices=STATUS_CHOICES, default="A")
-    years_active = JSONField(schema=YEARS_ACTIVE, blank=True)
+class CsPlayer(Player):
     team = models.ForeignKey(
-        "Team", on_delete=models.SET_NULL, blank=True, null=True)
+        "CsTeam", on_delete=models.SET_NULL, blank=True, null=True)
     role = models.ForeignKey(
         "Role", on_delete=models.SET_NULL, blank=True, null=True)
-    earnings = models.PositiveIntegerField(blank=True, null=True)
-    nicknames = models.CharField(max_length=255, blank=True)
-    # profile_image -- pending
-    social_media = JSONField(blank=True, schema=SOCIAL_MEDIA)
-    team_history = JSONField(blank=True, schema=TEAM_HISTORY)
-    team_mates = models.ManyToManyField("self", blank=True)
-    setup = models.ForeignKey(
-        PcSpec, on_delete=models.SET_NULL, blank=True, null=True)
-    wiki = models.TextField(blank=True)
-    is_published = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.title
 
     class Meta:
         db_table = "csgo_players"
@@ -53,30 +23,21 @@ class Player(models.Model):
         verbose_name = "Player"
         verbose_name_plural = "Players"
 
-
-# Teams
-class Team(models.Model):
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, blank=True)
-    abbr = models.CharField(max_length=255, blank=True)
-    hometown = models.CharField(max_length=255, blank=True)
-    social_media = JSONField(blank=True, schema=SOCIAL_MEDIA)
-    staff = JSONField(blank=True, schema=TEAM_STAFF)
-    wiki = models.TextField(blank=True)
-    is_published = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    # Image pending
-    # Country Pending
-
     def __str__(self):
         return self.title
+
+
+# Teams
+class CsTeam(Team):
 
     class Meta:
         db_table = "csgo_teams"
         ordering = ["updated_at"]
         verbose_name = "Team"
         verbose_name_plural = "Teams"
+
+    def __str__(self):
+        return self.title
 
 
 # Roles
@@ -129,9 +90,11 @@ class Tournament(models.Model):
     end_date = models.DateField(blank=True, null=True)
     start_time = models.TimeField(blank=True, null=True)
     city = models.CharField(max_length=255, blank=True)
-    # country -- pending
+    country = models.ForeignKey(
+        Country, on_delete=models.SET_NULL, blank=True, null=True)
     venue = models.CharField(max_length=255, blank=True)
-    # organizer -- pending
+    organizer = models.ForeignKey(
+        Organizer, on_delete=models.SET_NULL, blank=True, null=True)
     event_type = models.ForeignKey(
         "EventType", on_delete=models.SET_NULL, null=True,  blank=True)
     event_tier = models.ForeignKey(
@@ -142,7 +105,7 @@ class Tournament(models.Model):
     total_matches = models.PositiveIntegerField(default=16)
     match_schedule = JSONField(blank=True, schema=MATCH_SCHEDULE)
     total_teams = models.PositiveIntegerField(default=22)
-    participant_teams = models.ManyToManyField("Team", blank=True)
+    participant_teams = models.ManyToManyField("CsTeam", blank=True)
     prize_pool = models.CharField(max_length=20, blank=True)
     prize_distribution = JSONField(blank=True, schema=PRIZE_DISTRIBUTION)
     teams_stats = JSONField(blank=True, schema=TEAM_STATS)
@@ -171,17 +134,17 @@ class Match(models.Model):
     event = models.ForeignKey(
         "Tournament", on_delete=models.SET_NULL, null=True,  blank=True)
     team_1 = models.ForeignKey(
-        "Team", on_delete=models.SET_NULL, null=True,
+        "CsTeam", on_delete=models.SET_NULL, null=True,
         related_name="match_team_1", blank=True)
     team_2 = models.ForeignKey(
-        "Team", on_delete=models.SET_NULL, null=True,
+        "CsTeam", on_delete=models.SET_NULL, null=True,
         related_name="match_team_2", blank=True)
     team_1_score = models.PositiveIntegerField(default=0)
     team_2_score = models.PositiveIntegerField(default=0)
     start_date_time = models.DateTimeField(blank=True, null=True)
     is_match_finished = models.BooleanField(default=False)
     mvp = models.ForeignKey(
-        "Player", on_delete=models.SET_NULL, null=True, blank=True)
+        "CsPlayer", on_delete=models.SET_NULL, null=True, blank=True)
     map_pool = JSONField(blank=True, schema=MAP_POOL)
     overall_players_stats = JSONField(
         blank=True, schema=PLAYERS_STATS, null=True)
@@ -210,10 +173,10 @@ class SingleMapMatch(models.Model):
     match = models.ForeignKey(
         "Match", on_delete=models.SET_NULL, null=True, blank=True)
     team_1 = models.ForeignKey(
-        "Team", on_delete=models.SET_NULL, null=True, blank=True,
+        "CsTeam", on_delete=models.SET_NULL, null=True, blank=True,
         related_name="single_match_team_1")
     team_2 = models.ForeignKey(
-        "Team", on_delete=models.SET_NULL, null=True, blank=True,
+        "CsTeam", on_delete=models.SET_NULL, null=True, blank=True,
         related_name="single_match_team_2")
     team_1_score = models.PositiveIntegerField(default=0)
     team_2_score = models.PositiveIntegerField(default=0)
@@ -223,11 +186,11 @@ class SingleMapMatch(models.Model):
     start_date_time = models.DateTimeField(blank=True, null=True)
     is_match_finished = models.BooleanField(default=False)
     mvp = models.ForeignKey(
-        "Player", on_delete=models.SET_NULL, null=True, blank=True)
+        "CsPlayer", on_delete=models.SET_NULL, null=True, blank=True)
     team_1_players = models.ManyToManyField(
-        "Player", related_name="team_1_players", blank=True)
+        "CsPlayer", related_name="team_1_players", blank=True)
     team_2_players = models.ManyToManyField(
-        "Player", related_name="team_2_players", blank=True)
+        "CsPlayer", related_name="team_2_players", blank=True)
     players_stats = JSONField(blank=True, schema=PLAYERS_STATS)
     is_published = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -18,62 +18,6 @@ SOCIAL_MEDIA = {
 }
 
 # ||
-YEARS_ACTIVE = {
-    "type": "object",
-    "keys": {
-            "start_year": {
-                "type": "string"
-            },
-        "end_year": {
-                "type": "string"
-        }
-    },
-}
-
-# ||
-TEAM_HISTORY = {
-    "type": "array",
-    "title": "Team History",
-    "items": {
-        "type": "object",
-            "properties": {
-                "team": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "end_date": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "team_url": {
-                    "type": "string"
-                }
-            }
-    }
-}
-
-# ||
-TEAM_STAFF = {
-    "type": "array",
-    "title": "Team Staff",
-    "items": {
-            "type": "object",
-            "properties": {
-                "title": {
-                    "type": "string",
-                    "choices": ["Coach", "Manager", "CEO", "Founder"]
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-    }
-}
-
-# ||
 PLAYERS_STATS_TOUR = {
     "type": "array",
     "title": "Players Stats",
