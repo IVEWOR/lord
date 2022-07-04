@@ -13,6 +13,9 @@ INSTALLED_APPS = [
     "django_jsonform",
     # apps
     "csgo",
+    "globalapp",
+    "news_app",
+    "commerce",
 ]
 
 MIDDLEWARE = [

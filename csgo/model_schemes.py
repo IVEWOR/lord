@@ -1,3 +1,4 @@
+# ||
 SOCIAL_MEDIA = {
     "type": "array",
     "title": "Social Media",
@@ -16,6 +17,7 @@ SOCIAL_MEDIA = {
     }
 }
 
+# ||
 YEARS_ACTIVE = {
     "type": "object",
     "keys": {
@@ -27,6 +29,8 @@ YEARS_ACTIVE = {
         }
     },
 }
+
+# ||
 TEAM_HISTORY = {
     "type": "array",
     "title": "Team History",
@@ -51,6 +55,7 @@ TEAM_HISTORY = {
     }
 }
 
+# ||
 TEAM_STAFF = {
     "type": "array",
     "title": "Team Staff",
@@ -68,6 +73,7 @@ TEAM_STAFF = {
     }
 }
 
+# ||
 PLAYERS_STATS_TOUR = {
     "type": "array",
     "title": "Players Stats",
@@ -120,7 +126,7 @@ PLAYERS_STATS_TOUR = {
     }
 }
 
-
+# ||
 TEAM_STATS = {
     "type": "array",
     "title": "Team Stats",
@@ -158,6 +164,7 @@ TEAM_STATS = {
     }
 }
 
+# ||
 PRIZE_DISTRIBUTION = {
     "type": "array",
     "title": "Prize Distribution",
@@ -180,6 +187,7 @@ PRIZE_DISTRIBUTION = {
     }
 }
 
+# ||
 BROADCASTERS = {
     "type": "array",
     "title": "Broadcasters",
@@ -196,6 +204,8 @@ BROADCASTERS = {
             }
     }
 }
+
+# ||
 TALENT = {
     "type": "array",
     "title": "Talent",
@@ -210,6 +220,7 @@ TALENT = {
     }
 }
 
+# ||
 MATCH_SCHEDULE = {
     "type": "array",
     "title": "Match Schedule",
@@ -249,7 +260,7 @@ MATCH_SCHEDULE = {
     }
 }
 
-
+# ||
 MAP_POOL = {
     "type": "array",
     "title": "Map Pool",
@@ -269,7 +280,7 @@ MAP_POOL = {
     }
 }
 
-
+# ||
 PLAYERS_STATS = {
     "type": "array",
     "title": "Players Stats",

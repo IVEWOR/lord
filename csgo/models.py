@@ -1,3 +1,4 @@
+from commerce.models import PcSpec
 from django.db import models
 from django_jsonform.models.fields import JSONField
 
@@ -36,6 +37,8 @@ class Player(models.Model):
     social_media = JSONField(blank=True, schema=SOCIAL_MEDIA)
     team_history = JSONField(blank=True, schema=TEAM_HISTORY)
     team_mates = models.ManyToManyField("self", blank=True)
+    setup = models.ForeignKey(
+        PcSpec, on_delete=models.SET_NULL, blank=True, null=True)
     wiki = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
