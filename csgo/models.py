@@ -1,70 +1,22 @@
 from django.db import models
 from django_jsonform.models.fields import JSONField
 
-SOCIAL_MEDIA = {
-    "type": "array",
-    "title": "Social Media",
-    "items": {
-        'type': 'object',
-        'properties': {
-            "website": {
-                "type": "string",
-                "choices": ["Twitter", "Facebook", "Instagram",
-                            "YouTube", "Twitch", "Steam", "Discord", "Faceit"]
-            },
-            "url": {
-                "type": "string"
-            }
-        }
-    }
-}
+from csgo.model_schemes import (BROADCASTERS, MAP_POOL, MATCH_SCHEDULE,
+                                PLAYERS_STATS, PLAYERS_STATS_TOUR,
+                                PRIZE_DISTRIBUTION, SOCIAL_MEDIA, TALENT,
+                                TEAM_HISTORY, TEAM_STAFF, TEAM_STATS,
+                                YEARS_ACTIVE)
 
 
 # Players
 class Player(models.Model):
-
     STATUS_CHOICES = (
         ("A", "Active"),
         ("I", "Inactive"),
         ("R", "Retired"),
         ("U", "Unknown"),
     )
-
-    YEARS_ACTIVE = {
-        "type": "object",
-        "keys": {
-            "start_year": {
-                "type": "string"
-            },
-            "end_year": {
-                "type": "string"
-            }
-        },
-    }
-    Team_History = {
-        "type": "array",
-        "title": "Team History",
-        "items": {
-            "type": "object",
-            "properties": {
-                "team": {
-                    "type": "string"
-                },
-                "start_date": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "end_date": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "team_url": {
-                    "type": "string"
-                }
-            }
-        }
-    }
-    title = models.CharField(max_length=255, blank=True)
+    title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     full_name = models.CharField(max_length=255, blank=True)
     native_name = models.CharField(max_length=255, blank=True)
@@ -82,7 +34,7 @@ class Player(models.Model):
     nicknames = models.CharField(max_length=255, blank=True)
     # profile_image -- pending
     social_media = JSONField(blank=True, schema=SOCIAL_MEDIA)
-    team_history = JSONField(blank=True, schema=Team_History)
+    team_history = JSONField(blank=True, schema=TEAM_HISTORY)
     team_mates = models.ManyToManyField("self", blank=True)
     wiki = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)
@@ -101,23 +53,7 @@ class Player(models.Model):
 
 # Teams
 class Team(models.Model):
-    TEAM_STAFF = {
-        "type": "array",
-        "title": "Team Staff",
-        "items": {
-            "type": "object",
-            "properties": {
-                "title": {
-                    "type": "string",
-                    "choices": ["Coach", "Manager", "CEO", "Founder"]
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        }
-    }
-    title = models.CharField(max_length=255, blank=True)
+    title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     abbr = models.CharField(max_length=255, blank=True)
     hometown = models.CharField(max_length=255, blank=True)
@@ -142,7 +78,7 @@ class Team(models.Model):
 
 # Roles
 class Role(models.Model):
-    title = models.CharField(max_length=255, blank=True)
+    title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     wiki = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)
@@ -161,7 +97,7 @@ class Role(models.Model):
 
 # Maps
 class Map(models.Model):
-    title = models.CharField(max_length=255, blank=True)
+    title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     abbr = models.CharField(max_length=255, blank=True)
     wiki = models.TextField(blank=True)
@@ -179,189 +115,9 @@ class Map(models.Model):
         verbose_name_plural = "Maps"
 
 
-PLAYERS_STATS_TOUR = {
-    "type": "array",
-    "title": "Players Stats",
-    "items": {
-        "type": "object",
-        "properties": {
-            "name": {
-                "type": "string"
-            },
-            "team": {
-                "type": "string"
-            },
-            "kills": {
-                "type": "number"
-            },
-            "deaths": {
-                "type": "number"
-            },
-            "assists": {
-                "type": "number"
-            },
-            "kd": {
-                "type": "number"
-            },
-            "kast": {
-                "type": "number"
-            },
-            "adr": {
-                "type": "number"
-            },
-            "total_matches": {
-                "type": "number"
-            },
-            "wins": {
-                "type": "number"
-            },
-            "losses": {
-                "type": "number"
-            },
-            "total_rounds": {
-                "type": "number"
-            },
-            "round_wins": {
-                "type": "number"
-            },
-            "round_losses": {
-                "type": "number"
-            },
-        }
-    }
-}
-
-TEAM_STATS = {
-    "type": "array",
-    "title": "Team Stats",
-    "items": {
-        "type": "object",
-        "properties": {
-            "name": {
-                "type": "string"
-            },
-            "total_matches_played": {
-                "type": "number"
-            },
-            "total_matches_won": {
-                "type": "number"
-            },
-            "total_matches_lost": {
-                "type": "number"
-            },
-            "total_rounds_played": {
-                "type": "number"
-            },
-            "total_rounds_won": {
-                "type": "number"
-            },
-            "total_rounds_lost": {
-                "type": "number"
-            },
-            "best_player": {
-                "type": "string"
-            },
-            "worst_player": {
-                "type": "string"
-            }
-        }
-    }
-}
-
-PRIZE_DISTRIBUTION = {
-    "type": "array",
-    "title": "Prize Distribution",
-    "items": {
-        "type": "object",
-        "properties": {
-            "rank": {
-                "type": "number"
-            },
-            "prize": {
-                "type": "string"
-            },
-            "prize_percentage": {
-                "type": "number"
-            },
-            "name": {
-                "type": "string"
-            }
-        }
-    }
-}
-
-
 # Tournaments
 class Tournament(models.Model):
-    BROADCASTERS = {
-        "type": "array",
-        "title": "Broadcasters",
-        "items": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-                # logo pending
-            }
-        }
-    }
-    TALENT = {
-        "type": "array",
-        "title": "Talent",
-        "items": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                # image pending
-            }
-        }
-    }
-
-    MATCH_SCHEDULE = {
-        "type": "array",
-        "title": "Match Schedule",
-        "items": {
-            "type": "object",
-            "properties": {
-                "stage": {
-                    "type": "string"
-                },
-                "type": "array",
-                "title": "Match Type",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "match_number": {
-                            "type": "integer"
-                        },
-                        "date": {
-                            "type": "string",
-                            "format": "datetime"
-                        },
-                        "team_1": {
-                            "type": "string"
-                        },
-                        "team_2": {
-                            "type": "string"
-                        },
-                        "team_1_url": {
-                            "type": "string"
-                        },
-                        "team_2_url": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        }
-    }
-    title = models.CharField(max_length=255, blank=True)
+    title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     abbr = models.CharField(max_length=255, blank=True)
     # image -- pending
@@ -405,64 +161,10 @@ class Tournament(models.Model):
         verbose_name_plural = "Tournaments"
 
 
-MAP_POOL = {
-    "type": "array",
-    "title": "Map Pool",
-    "items": {
-        "type": "object",
-        "properties": {
-            "name": {
-                "type": "string"
-            },
-            "url": {
-                "type": "string"
-            },
-            "selected_by": {
-                "type": "string"
-            }
-        }
-    }
-}
-
-
-PLAYERS_STATS = {
-    "type": "array",
-    "title": "Players Stats",
-    "items": {
-        "type": "object",
-        "properties": {
-            "name": {
-                "type": "string"
-            },
-            "team": {
-                "type": "string"
-            },
-            "kills": {
-                "type": "number"
-            },
-            "deaths": {
-                "type": "number"
-            },
-            "assists": {
-                "type": "number"
-            },
-            "kd": {
-                "type": "number"
-            },
-            "kast": {
-                "type": "number"
-            },
-            "adr": {
-                "type": "number"
-            },
-        }
-    }
-}
-
-
 # Matches
 class Match(models.Model):
     id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
     event = models.ForeignKey(
         "Tournament", on_delete=models.SET_NULL, null=True,  blank=True)
     team_1 = models.ForeignKey(
@@ -501,13 +203,14 @@ class Match(models.Model):
 # SingleMapMatch
 class SingleMapMatch(models.Model):
     id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
     match = models.ForeignKey(
         "Match", on_delete=models.SET_NULL, null=True, blank=True)
     team_1 = models.ForeignKey(
-        "Team", on_delete=models.SET_NULL, null=True,
+        "Team", on_delete=models.SET_NULL, null=True, blank=True,
         related_name="single_match_team_1")
     team_2 = models.ForeignKey(
-        "Team", on_delete=models.SET_NULL, null=True,
+        "Team", on_delete=models.SET_NULL, null=True, blank=True,
         related_name="single_match_team_2")
     team_1_score = models.PositiveIntegerField(default=0)
     team_2_score = models.PositiveIntegerField(default=0)
@@ -543,7 +246,7 @@ class SingleMapMatch(models.Model):
 # EventTypes
 class EventType(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True,)
     description = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -562,7 +265,7 @@ class EventType(models.Model):
 # EventTiers
 class EventTier(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True,)
     description = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
