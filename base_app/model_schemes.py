@@ -54,3 +54,21 @@ TEAM_HISTORY = {
             }
     }
 }
+
+# ||
+TEAM_STAFF = {
+    "type": "array",
+    "title": "Team Staff",
+    "items": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "choices": ["Coach", "Manager", "CEO", "Founder"]
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+    }
+}

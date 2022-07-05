@@ -1,8 +1,8 @@
+from base_app.models import Player, Team
 from django.db import models
+from django.urls import reverse
 from django_jsonform.models.fields import JSONField
 from globalapp.models import Country, Organizer
-from players.models import Player
-from teams.models import Team
 
 from csgo.model_schemes import (BROADCASTERS, MAP_POOL, MATCH_SCHEDULE,
                                 PLAYERS_STATS, PLAYERS_STATS_TOUR,
@@ -19,12 +19,15 @@ class CsPlayer(Player):
 
     class Meta:
         db_table = "csgo_players"
-        ordering = ["updated_at"]
+        ordering = ["-updated_at"]
         verbose_name = "Player"
         verbose_name_plural = "Players"
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("csgo:player_detail", kwargs={"slug": self.slug})
 
 
 # Teams
@@ -32,7 +35,7 @@ class CsTeam(Team):
 
     class Meta:
         db_table = "csgo_teams"
-        ordering = ["updated_at"]
+        ordering = ["-updated_at"]
         verbose_name = "Team"
         verbose_name_plural = "Teams"
 
@@ -54,7 +57,7 @@ class Role(models.Model):
 
     class Meta:
         db_table = "csgo_roles"
-        ordering = ["updated_at"]
+        ordering = ["-updated_at"]
         verbose_name = "Role"
         verbose_name_plural = "Roles"
 
@@ -74,7 +77,7 @@ class Map(models.Model):
 
     class Meta:
         db_table = "csgo_maps"
-        ordering = ["updated_at"]
+        ordering = ["-updated_at"]
         verbose_name = "Map"
         verbose_name_plural = "Maps"
 
@@ -122,7 +125,7 @@ class Tournament(models.Model):
 
     class Meta:
         db_table = "csgo_tournaments"
-        ordering = ["updated_at"]
+        ordering = ["-updated_at"]
         verbose_name = "Tournament"
         verbose_name_plural = "Tournaments"
 
@@ -161,7 +164,7 @@ class Match(models.Model):
 
     class Meta:
         db_table = "csgo_matches"
-        ordering = ["updated_at"]
+        ordering = ["-updated_at"]
         verbose_name = "Match"
         verbose_name_plural = "Matches"
 
@@ -204,7 +207,7 @@ class SingleMapMatch(models.Model):
 
     class Meta:
         db_table = "csgo_single_map_matches"
-        ordering = ["updated_at"]
+        ordering = ["-updated_at"]
         verbose_name = "Single Map Match"
         verbose_name_plural = "Single Map Matches"
 
@@ -223,7 +226,7 @@ class EventType(models.Model):
 
     class Meta:
         db_table = "csgo_event_types"
-        ordering = ["updated_at"]
+        ordering = ["-updated_at"]
         verbose_name = "Event Type"
         verbose_name_plural = "Event Types"
 
@@ -237,11 +240,14 @@ class EventTier(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        db_table = "csgo_event_tiers"
+        ordering = ["-updated_at"]
+        verbose_name = "Event Tier"
+        verbose_name_plural = "Event Tiers"
+
     def __str__(self):
         return self.title
 
-    class Meta:
-        db_table = "csgo_event_tiers"
-        ordering = ["updated_at"]
-        verbose_name = "Event Tier"
-        verbose_name_plural = "Event Tiers"
+    def get_absolute_url(self):
+        return reverse("csgo:event_tier_detail", kwargs={"slug": self.slug})

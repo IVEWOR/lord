@@ -1,9 +1,11 @@
 from commerce.models import PcSpec
 from django.db import models
+from django.utils.text import slugify
 from django_jsonform.models.fields import JSONField
 from globalapp.models import Country
 
-from players.model_schemes import SOCIAL_MEDIA, TEAM_HISTORY, YEARS_ACTIVE
+from base_app.model_schemes import (SOCIAL_MEDIA, TEAM_HISTORY, TEAM_STAFF,
+                                    YEARS_ACTIVE)
 
 
 # Players
@@ -46,3 +48,34 @@ class Player(models.Model):
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+
+# Teams
+class Team(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
+    abbr = models.CharField(max_length=255, blank=True)
+    hometown = models.CharField(max_length=255, blank=True)
+    country = models.ForeignKey(
+        Country, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name="%(app_label)s_%(class)s_related")
+    social_media = JSONField(blank=True, schema=SOCIAL_MEDIA)
+    staff = JSONField(blank=True, schema=TEAM_STAFF)
+    wiki = models.TextField(blank=True)
+    is_published = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # Image pending
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)

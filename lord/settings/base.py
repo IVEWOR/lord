@@ -16,8 +16,7 @@ INSTALLED_APPS = [
     "globalapp",
     "news_app",
     "commerce",
-    "players",
-    "teams",
+    "base_app",
 ]
 
 MIDDLEWARE = [
