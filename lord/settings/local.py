@@ -1,10 +1,20 @@
 import os
 from pathlib import Path
 
+from lord.settings.base import INSTALLED_APPS
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = "django-insecure-5*5pj!v@-4g$lvia#hl&1o8^a%(@+6g8z_^*hp#_9me)adewp%"
 
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    "localhost"
+    # ...
+]
+
+INSTALLED_APPS += ["debug_toolbar"]
 
 DEBUG = True
 

@@ -4,6 +4,7 @@ from lord.settings.external import *
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -11,6 +12,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # additional
+    "django.contrib.humanize",
     # apps
     "csgo",
     "globalapp",
@@ -35,6 +38,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "lord.urls"

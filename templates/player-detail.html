@@ -1,4 +1,4 @@
-{% load thumbnail %}
+{% load static %} {% load thumbnail %} {% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,11 +6,232 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ player.title }} - CS:GO | eSports Lord</title>
+    <link rel="stylesheet" href="{% static 'normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'player.css' %}">
+    <link rel="stylesheet" href="{% static 'sofiapro-light.woff' %}">
 </head>
 
 <body>
-
+    <main>
+        <header class="profile-header">
+            <div class="profile-cover-area">
+                <img class="profile-cover" src="{% static 'cover.jpg' %}" alt="CS:GO">
+                <div class="profile-cover-overlay"></div>
+                <h1 class="profile-name">{{ player.title }}</h1>
+                <div class="profile-image">
+                    <figure>
+                        <picture>
+                            <source srcset="{% thumbnail player.avatar 500x500 crop %}.webp" type="image/webp">
+                            <source srcset="{% thumbnail player.avatar 500x500 crop %}" type="image/png">
+                            <img src="{{ player.avatar.url }}" alt="{{ player.title }}">
+                        </picture>
+                        <figcaption class="sr-only">{{ player.title }} wearing team NAVI's T-shirt</figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="profile-info">
+                <h2>{{ player.full_name }}</h2>
+                <div class="short-description">{{ player.wiki|safe|truncatechars:200 }}</div>
+            </div>
+        </header>
+        <dl class="player-table-info">
+            <div>
+                <dt>Team</dt>
+                <dd>{{ player.team.title }}
+                    <img class="flag" src="{% thumbnail player.team.logo 40x40 crop %}.webp"
+                        alt="{{ player.team.title }} logo">
+                </dd>
+            </div>
+            <div>
+                <dt>Country</dt>
+                <dd>{{ player.country.name }} <img class="flag" src="{% static 'Ukraine.png' %}"
+                        alt="Flag of {{ player.country.name }}">
+                </dd>
+            </div>
+            <div>
+                <dt>CS:GO Rank</dt>
+                <dd>{{ player.rank }}</dd>
+            </div>
+            <div>
+                <dt>Earnings</dt>
+                <dd>${{ player.earnings|intcomma }}</dd>
+            </div>
+        </dl>
+        <section class="wrap">
+            <h2 id="pc_specs">{{ player.title }} PC Specs & Setup</h2>
+            <div class="pc-specs">
+                <figure class="pc-specs__image">
+                    <picture>
+                        <source srcset="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            type="image/webp">
+                        <source srcset="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            type="image/png">
+                        <img src="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            alt="Logitech Mousepad">
+                    </picture>
+                    <figcaption class="sr-only">{{ player.title }} uses a logitech mousepad</figcaption>
+                </figure>
+                <div class="pc-specs__info">
+                    <h3 class="pc-specs__title">Mousepad</h3>
+                    <p class="pc-specs__name">Logitech G PAD</p>
+                    <a class="pc-specs__link external" href="https://amzn.to/2VLXVOB" target="_blank"
+                        rel="nofollow">Check Price</a>
+                </div>
+            </div>
+            <div class="pc-specs">
+                <figure class="pc-specs__image">
+                    <picture>
+                        <source srcset="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            type="image/webp">
+                        <source srcset="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            type="image/png">
+                        <img src="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            alt="Logitech Mousepad">
+                    </picture>
+                    <figcaption class="sr-only">{{ player.title }} uses a logitech mousepad</figcaption>
+                </figure>
+                <div class="pc-specs__info">
+                    <h3 class="pc-specs__title">Mousepad</h3>
+                    <p class="pc-specs__name">Logitech G PAD</p>
+                    <a class="pc-specs__link external" href="https://amzn.to/2VLXVOB" target="_blank"
+                        rel="nofollow">Check Price</a>
+                </div>
+            </div>
+            <div class="pc-specs">
+                <figure class="pc-specs__image">
+                    <picture>
+                        <source srcset="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            type="image/webp">
+                        <source srcset="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            type="image/png">
+                        <img src="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            alt="Logitech Mousepad">
+                    </picture>
+                    <figcaption class="sr-only">{{ player.title }} uses a logitech mousepad</figcaption>
+                </figure>
+                <div class="pc-specs__info">
+                    <h3 class="pc-specs__title">Mousepad</h3>
+                    <p class="pc-specs__name">Logitech G PAD</p>
+                    <a class="pc-specs__link external" href="https://amzn.to/2VLXVOB" target="_blank"
+                        rel="nofollow">Check Price</a>
+                </div>
+            </div>
+            <div class="pc-specs">
+                <figure class="pc-specs__image">
+                    <picture>
+                        <source srcset="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            type="image/webp">
+                        <source srcset="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            type="image/png">
+                        <img src="https://cdn.gamerstats.net/media/pcspecs/2022/4/Logitech_G_PAD_vPtJVap.png"
+                            alt="Logitech Mousepad">
+                    </picture>
+                    <figcaption class="sr-only">{{ player.title }} uses a logitech mousepad</figcaption>
+                </figure>
+                <div class="pc-specs__info">
+                    <h3 class="pc-specs__title">Mousepad</h3>
+                    <p class="pc-specs__name">Logitech G PAD</p>
+                    <a class="pc-specs__link external" href="https://amzn.to/2VLXVOB" target="_blank"
+                        rel="nofollow">Check Price</a>
+                </div>
+            </div>
+        </section>
+        {% if player.settings %}
+        <section class="wrap">
+            <h2 id="settings">{{ player.title }} CS:GO Settings</h2>
+            {% for section in player.settings.settings_data %}
+            <div class="settings-section">
+                <h3 class="settings-section__heading">{{ section.property_name }}</h3>
+                {% if section.property_level == "LEVEL_1" %}
+                <dl class="settings-section__data">
+                    {% for data in section.children %}
+                    <div>
+                        <dt>{{ data.property_name }}</dt>
+                        <dd>{{ data.property_value }}</dd>
+                    </div>
+                    {% endfor %}
+                </dl>
+                {% else %}
+                {% for data in section.children %}
+                <h4 class="settings-section__sub-heading">{{ data.property_name }}</h4>
+                <dl class="settings-section__sub-data">
+                    {% for sub_data in data.children %}
+                    <div>
+                        <dt>{{ sub_data.property_name }}</dt>
+                        <dd>{{ sub_data.property_value }}</dd>
+                    </div>
+                    {% endfor %}
+                </dl>
+                {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </section>
+        {% endif %}
+        <section class="wrap">
+            <h2 id="profile">{{ player.title }} Profile</h2>
+            <div class="table-wrap">
+                <table class="profile-table table">
+                    <thead>
+                        <tr>
+                            <th class="table-sub-heading" colspan="2">About {{ player.title }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Native Name</th>
+                            <td>{{ player.native_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Birthday</th>
+                            <td>{{ player.born }}</td>
+                        </tr>
+                        <tr>
+                            <th>Birth Place</th>
+                            <td>{{ player.hometown }} <img class="flag" src="{% static 'Ukraine.png' %}"
+                                    alt="Flag of {{ player.country.name }}"></td>
+                        </tr>
+                        <tr>
+                            <th>Region</th>
+                            <td>{{ player.country.continent }} ({{ player.country.continent.abbr }})</td>
+                        </tr>
+                        <tr>
+                            <th>Alternate IDs</th>
+                            <td>{{ player.alternate_ids }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nickname(s)</th>
+                            <td>{{ player.nicknames }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-sub-heading" colspan="2">Career Information</th>
+                        </tr>
+                        <tr>
+                            <th>Profession</th>
+                            <td>CS:GO eSports Player</td>
+                        </tr>
+                        <tr>
+                            <th>Team</th>
+                            <td>{{ player.team.title }}</td>
+                        </tr>
+                        <tr>
+                            <th>Role</th>
+                            <td>{{ player.role.title }}</td>
+                        </tr>
+                        <tr>
+                            <th>Years Active</th>
+                            <td>{{ player.years_active.start_year }} - {{ player.years_active.end_year }}</td>
+                        </tr>
+                        <tr>
+                            <th>Match Winnings*</th>
+                            <td>${{ player.earnings|intcomma }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
 </body>
 
 </html>

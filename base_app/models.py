@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.text import slugify
 from django_jsonform.models.fields import JSONField
 from filer.fields.image import FilerImageField
-from globalapp.models import Country, Organizer
+from globalapp.models import Country, Organizer, PlayerSetting
 
 from base_app.model_schemes import (BROADCASTERS, MAP_POOL, MATCH_SCHEDULE,
                                     PLAYERS_STATS, PLAYERS_STATS_TOUR,
@@ -28,6 +28,7 @@ class Player(models.Model):
     native_name = models.CharField(max_length=255, blank=True)
     alternate_ids = models.CharField(max_length=255, blank=True)
     born = models.DateField(blank=True, null=True)
+    rank = models.IntegerField(blank=True, null=True)
     hometown = models.CharField(max_length=255, blank=True)
     country = models.ForeignKey(
         Country, on_delete=models.SET_NULL, blank=True, null=True,
@@ -44,6 +45,9 @@ class Player(models.Model):
         "self", blank=True)
     setup = models.ForeignKey(
         PcSpec, on_delete=models.SET_NULL,
+        blank=True, null=True, related_name="%(app_label)s_%(class)s_related")
+    settings = models.ForeignKey(
+        PlayerSetting, on_delete=models.SET_NULL,
         blank=True, null=True, related_name="%(app_label)s_%(class)s_related")
     wiki = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)
