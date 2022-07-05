@@ -14,3 +14,5 @@ FILER_STORAGES = {
         },
     },
 }
+
+JSONFORM_UPLOAD_HANDLER = 'base_app.views.upload_handler'

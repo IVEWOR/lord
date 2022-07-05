@@ -13,6 +13,7 @@ urlpatterns = [
     path("", include(("commerce.urls", "commerce"), namespace="commerce")),
     path("summernote/", include("django_summernote.urls")),
     path("filer/", include("filer.urls")),
+    path('django-jsonform/', include('django_jsonform.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 
