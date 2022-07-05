@@ -283,7 +283,7 @@ img {
     text-align: left;
 }
 
-.table tr:not(.table tbody tr:last-child) {
+.table tr:not(.table tfoot tr:last-child) {
     border-bottom: solid 1px #1f253e;
 }
 
@@ -303,3 +303,34 @@ img {
     text-align: center;
 }
 
+.table .socials {
+    display: flex;
+    gap: 6px;
+}
+
+.toggle {
+    font-size: .9em;
+    line-height: 1.4em;
+    background-color: #0a0e2282;
+    border-radius: 20px;
+    border: solid 1px #1f253e;
+    margin: 10px
+}
+
+.close:after {
+    content: "";
+    background-image: url(/static/arrow.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    margin-top: 1em;
+}
+
+.toggle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

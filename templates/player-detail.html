@@ -228,7 +228,30 @@
                             <td>${{ player.earnings|intcomma }}</td>
                         </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Social Media</th>
+                            <td class="socials">
+                                {% for social in player.social_media %}
+                                <a class="social-link" href="{{ social.url }}" target="_blank"
+                                    rel="noopener noreferrer nofollow">
+                                    <img src="{% static social.website|lower %}.svg" alt="{{ social.website }}"
+                                        width="24">
+                                </a>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
+            </div>
+        </section>
+        <section class="wrap toggle">
+            <div class="toggle-header">
+                <h2 id="biography">{{ player.title }} Biography</h2>
+                <span class="close"><span class="sr-only">Close Toggle</span></span>
+            </div>
+            <div class="biography__content">
+                {{ player.wiki|safe }}
             </div>
         </section>
     </main>
