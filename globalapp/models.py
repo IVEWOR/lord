@@ -10,9 +10,6 @@ class Region(models.Model):
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     abbr = models.CharField(max_length=10, blank=True)
     # image --->> https://www.countryflags.io/<country_code>/flat/64.png
-    description = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "glob_regions"
@@ -30,11 +27,8 @@ class Country(models.Model):
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     abbr = models.CharField(max_length=10, blank=True)
     # image --->> https://www.countryflags.io/<country_code>/flat/64.png
-    description = models.TextField(blank=True)
     continent = models.ForeignKey(
         Region, on_delete=models.SET_NULL, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "glob_countries"

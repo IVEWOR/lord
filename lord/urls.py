@@ -10,7 +10,8 @@ urlpatterns = [
     path("", include(("news_app.urls", "news_app"), namespace="news_app")),
     path("", include(("base_app.urls", "base_app"), namespace="base_app")),
     path("", include(("commerce.urls", "commerce"), namespace="commerce")),
-    path('summernote/', include('django_summernote.urls')),
+    path("summernote/", include("django_summernote.urls")),
+    path("filer/", include("filer.urls"))
 ]
 
 if settings.DEBUG:

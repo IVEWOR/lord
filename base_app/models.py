@@ -2,6 +2,7 @@ from commerce.models import PcSpec
 from django.db import models
 from django.utils.text import slugify
 from django_jsonform.models.fields import JSONField
+from filer.fields.image import FilerImageField
 from globalapp.models import Country, Organizer
 
 from base_app.model_schemes import (BROADCASTERS, MAP_POOL, MATCH_SCHEDULE,
@@ -21,6 +22,7 @@ class Player(models.Model):
         ("M", "Migrated"),
     )
     title = models.CharField(max_length=255)
+    avatar = FilerImageField(null=True, blank=True, on_delete=models.SET_NULL)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     full_name = models.CharField(max_length=255, blank=True)
     native_name = models.CharField(max_length=255, blank=True)
@@ -36,7 +38,6 @@ class Player(models.Model):
     years_active = JSONField(schema=YEARS_ACTIVE, blank=True)
     earnings = models.PositiveIntegerField(blank=True, null=True)
     nicknames = models.CharField(max_length=255, blank=True)
-    # profile_image -- pending
     social_media = JSONField(blank=True, schema=SOCIAL_MEDIA)
     team_history = JSONField(blank=True, schema=TEAM_HISTORY)
     team_mates = models.ManyToManyField(
@@ -63,17 +64,16 @@ class Team(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     abbr = models.CharField(max_length=255, blank=True)
+    logo = FilerImageField(null=True, blank=True, on_delete=models.SET_NULL)
     hometown = models.CharField(max_length=255, blank=True)
     country = models.ForeignKey(
-        Country, on_delete=models.SET_NULL, blank=True, null=True,
-        related_name="%(app_label)s_%(class)s_related")
+        Country, on_delete=models.SET_NULL, blank=True, null=True)
     social_media = JSONField(blank=True, schema=SOCIAL_MEDIA)
     staff = JSONField(blank=True, schema=TEAM_STAFF)
     wiki = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # Image pending
 
     class Meta:
         abstract = True
@@ -89,8 +89,10 @@ class Tournament(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     abbr = models.CharField(max_length=255, blank=True)
-    # image -- pending
-    # cover -- pending
+    avatar = FilerImageField(null=True, blank=True, on_delete=models.SET_NULL)
+    cover_image = FilerImageField(
+        null=True, blank=True, on_delete=models.SET_NULL,
+        related_name="cover_image_related")
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     start_time = models.TimeField(blank=True, null=True)
@@ -129,6 +131,7 @@ class Tournament(models.Model):
 class Match(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
+    avatar = FilerImageField(null=True, blank=True, on_delete=models.SET_NULL)
     team_1_score = models.PositiveIntegerField(default=0)
     team_2_score = models.PositiveIntegerField(default=0)
     start_date_time = models.DateTimeField(blank=True, null=True)
@@ -177,6 +180,7 @@ class SingleMapMatch(models.Model):
 class BaseSimpleOption(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
+    avatar = FilerImageField(null=True, blank=True, on_delete=models.SET_NULL)
     description = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

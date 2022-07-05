@@ -1,6 +1,8 @@
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+from lord.settings.external import *
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -19,6 +21,9 @@ INSTALLED_APPS = [
     # Third-party
     "django_jsonform",
     "django_summernote",
+    "easy_thumbnails",
+    "filer",
+    "mptt",
 ]
 
 MIDDLEWARE = [
@@ -36,7 +41,7 @@ ROOT_URLCONF = "lord.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
