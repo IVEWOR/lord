@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     "news_app",
     "commerce",
     "base_app",
+    "valor",
 
     # Third-party
     "django_jsonform",

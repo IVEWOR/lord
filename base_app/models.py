@@ -92,7 +92,7 @@ class Tournament(models.Model):
     avatar = FilerImageField(null=True, blank=True, on_delete=models.SET_NULL)
     cover_image = FilerImageField(
         null=True, blank=True, on_delete=models.SET_NULL,
-        related_name="cover_image_related")
+        related_name="%(app_label)s_%(class)s_related")
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     start_time = models.TimeField(blank=True, null=True)
