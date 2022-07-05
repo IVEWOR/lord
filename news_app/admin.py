@@ -1,8 +1,22 @@
 from django.contrib import admin
+from django_summernote.admin import SummernoteModelAdmin
 
 from news_app.models import Author, News, NewsCategory, NewsComment
 
-admin.site.register(News)
-admin.site.register(NewsCategory)
+
+@admin.register(News)
+class NewsAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
+@admin.register(NewsCategory)
+class NewsCategoryAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
+@admin.register(Author)
+class NewsAuthorAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
 admin.site.register(NewsComment)
-admin.site.register(Author)

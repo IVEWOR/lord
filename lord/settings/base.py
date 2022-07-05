@@ -9,14 +9,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # Third-party
-    "django_jsonform",
     # apps
     "csgo",
     "globalapp",
     "news_app",
     "commerce",
     "base_app",
+
+    # Third-party
+    "django_jsonform",
+    "django_summernote",
 ]
 
 MIDDLEWARE = [

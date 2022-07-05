@@ -1,14 +1,50 @@
 from django.contrib import admin
+from django_summernote.admin import SummernoteModelAdmin
 
-from csgo.models import (CsPlayer, CsTeam, EventTier, EventType, Map, Match,
-                         Role, SingleMapMatch, Tournament)
+from csgo.models import (CsEventTier, CsEventType, CsMap, CsMatch, CsPlayer,
+                         CsRole, CsSingleMapMatch, CsTeam, CsTournament)
 
-admin.site.register(CsPlayer)
-admin.site.register(Role)
-admin.site.register(CsTeam)
-admin.site.register(Map)
-admin.site.register(EventType)
-admin.site.register(EventTier)
-admin.site.register(Tournament)
-admin.site.register(Match)
-admin.site.register(SingleMapMatch)
+
+@admin.register(CsEventTier)
+class CsEventTierAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
+@admin.register(CsEventType)
+class CsEventTypeAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
+@admin.register(CsMap)
+class CsMapAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
+@admin.register(CsMatch)
+class CsMatchAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
+@admin.register(CsPlayer)
+class CsPlayerAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
+@admin.register(CsRole)
+class CsRoleAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
+@admin.register(CsSingleMapMatch)
+class CsSingleMapMatchAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
+@admin.register(CsTeam)
+class CsTeamAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
+
+
+@admin.register(CsTournament)
+class CsTournamentAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
